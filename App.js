@@ -30,7 +30,7 @@ export default class App extends Component {
           }, 5000);
         }}>
           <Text style={styles.welcome}>
-            show loading
+            Show loading >> hide loading after 5s
           </Text>
         </TouchableOpacity>
         <TouchableOpacity onPress={() => {

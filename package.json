@@ -1,11 +1,12 @@
 {
-	"name": "react_native_overlayer",
+	"name": "react-native-overlayer",
 	"version": "0.0.1",
 	"private": true,
 	"scripts": {
 		"start": "node node_modules/react-native/local-cli/cli.js start",
 		"test": "jest"
 	},
+	"description": "a react-native plugin for normal alert and loading",
 	"dependencies": {
 		"react": "16.0.0",
 		"react-native": "0.50.4"
@@ -18,5 +19,23 @@
 	},
 	"jest": {
 		"preset": "react-native"
-	}
+	},
+	"main": "./src/",
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/yongqianvip/react-native-overlayer"
+	},
+	"keywords": [
+		"react-native",
+		"alert",
+		"loading",
+		"overlay",
+		"overlayer"
+	],
+	"author": "yongqianvip",
+	"license": "MIT",
+	"bugs": {
+		"url": "https://github.com/yongqianvip/react-native-overlayer/issues"
+	},
+	"homepage": "https://github.com/yongqianvip/react-native-overlayer#readme"
 }
