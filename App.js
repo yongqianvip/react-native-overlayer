@@ -6,32 +6,143 @@
 
 import React, { Component } from 'react';
 import {
-  Platform,
   StyleSheet,
   Text,
-  View
+  View,
+  Image,
+  TouchableOpacity,
+  Dimensions
 } from 'react-native';
-
-const instructions = Platform.select({
-  ios: 'Press Cmd+R to reload,\n' +
-    'Cmd+D or shake for dev menu',
-  android: 'Double tap R on your keyboard to reload,\n' +
-    'Shake or press menu button for dev menu',
-});
-
-export default class App extends Component<{}> {
+import { RRCAlert, RRCLoading } from './src';
+import LoadingImage from './src/img/loading.gif';
+export default class App extends Component {
+  constructor(props) {
+    super(props);
+    RRCLoading.setLoadingOptions({ loadingImage: LoadingImage, text: 'gogogo' })
+  }
   render() {
     return (
       <View style={styles.container}>
-        <Text style={styles.welcome}>
-          Welcome to React Native!
-        </Text>
-        <Text style={styles.instructions}>
-          To get started, edit App.js
-        </Text>
-        <Text style={styles.instructions}>
-          {instructions}
-        </Text>
+        <TouchableOpacity onPress={() => {
+          RRCLoading.show()
+          setTimeout(() => {
+            RRCLoading.hide()
+          }, 5000);
+        }}>
+          <Text style={styles.welcome}>
+            show loading
+          </Text>
+        </TouchableOpacity>
+        <TouchableOpacity onPress={() => {
+          RRCAlert.alert('normal');
+        }}>
+          <Text style={styles.welcome}>
+            Alert normal
+          </Text>
+        </TouchableOpacity>
+
+
+        <TouchableOpacity onPress={() => {
+          RRCAlert.alert('loading and alert')
+          setTimeout(() => {
+            RRCLoading.show('Loading...')
+          }, 1000);
+          setTimeout(() => {
+            RRCLoading.hide()
+          }, 3000);
+        }}>
+          <Text style={styles.welcome}>
+            Alert normal >> show loading after 1s >> hide loading after 3s
+          </Text>
+        </TouchableOpacity>
+
+        <TouchableOpacity onPress={() => {
+          RRCLoading.show('Loading...')
+          setTimeout(() => {
+            RRCLoading.hide()
+          }, 3000);
+        }}>
+          <Text style={styles.welcome}>
+            Alert nothing and show loading
+          </Text>
+        </TouchableOpacity>
+
+        <TouchableOpacity onPress={() => {
+          RRCAlert.alert('title title')
+        }}>
+          <Text style={styles.welcome}>
+            Alert title only
+          </Text>
+        </TouchableOpacity>
+        <TouchableOpacity onPress={() => {
+          RRCAlert.alert('only title && very looooooooooooooooooooooooooooooong')
+        }}>
+          <Text style={styles.welcome}>
+            Alert long title only
+          </Text>
+        </TouchableOpacity>
+        <TouchableOpacity onPress={() => {
+          RRCAlert.alert(
+            null,
+            'content content content content content content content content content content ',
+            [{ text: '确定' }]
+          )
+
+        }}>
+          <Text style={styles.welcome}>
+            Alert content only
+          </Text>
+        </TouchableOpacity>
+        <TouchableOpacity onPress={() => {
+          RRCAlert.alert(
+            'RRC提醒',
+            `1、这是第一行\n2、这是第二行通过使用${"\/n"}可以折行\n3、第三行`,
+            [{
+              text: '取消',
+            }, {
+              text: '删除',
+              style: { color: 'red' }
+            }],
+            (index) => {
+              console.log(`index = ${index} clicked`);
+            },
+            {
+              contentTextStyle: {
+                fontSize: 14,
+                textAlign: 'left'
+              }
+            }
+          )
+        }}>
+          <Text style={styles.welcome}>
+            Alert mutltiple lines
+          </Text>
+        </TouchableOpacity>
+
+
+        <TouchableOpacity onPress={() => {
+          RRCAlert.alert('多选', '三选一', [{
+            text: '给个好评',
+          }, {
+            text: '去吐槽',
+          }, {
+            text: '下次再说',
+          }], (index) => {
+            console.log(`index = ${index} clicked`);
+          })
+          setTimeout(() => {
+            RRCAlert.alert(
+              null,
+              '内容内容内容内容内容内容内容内容内容内容内容内容内容内容',
+              [{ text: '确定' }]
+            )
+          }, 2000);
+        }}>
+          <Text style={styles.welcome}>
+            Alert with three buttons >> Alert normal after 2s
+          </Text>
+        </TouchableOpacity>
+
       </View>
     );
   }
@@ -42,16 +153,16 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: '#F5FCFF',
+    // backgroundColor: '#fd521d'
+
   },
   welcome: {
     fontSize: 20,
     textAlign: 'center',
     margin: 10,
-  },
-  instructions: {
-    textAlign: 'center',
-    color: '#333333',
-    marginBottom: 5,
+    color: '#fff',
+    backgroundColor: 'orange',
+    width: Dimensions.get('window').width,
+    padding: 5
   },
 });
