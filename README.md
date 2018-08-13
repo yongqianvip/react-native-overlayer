@@ -6,6 +6,10 @@ react-native项目中通用的浮层组件
 * **通用RRCAlert组件**
 * **通用RRCLoading组件**
 
+# install
+
+		npm i react-native-overlayer --save
+
 ## RRCAlert
 * 引用
 
