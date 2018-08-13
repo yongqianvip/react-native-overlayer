@@ -161,7 +161,7 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     margin: 10,
     color: '#fff',
-    backgroundColor: 'orange',
+    backgroundColor: '#c2c2c2',
     width: Dimensions.get('window').width,
     padding: 5
   },
