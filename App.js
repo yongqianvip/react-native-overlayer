@@ -27,10 +27,10 @@ export default class App extends Component {
           RRCLoading.show()
           setTimeout(() => {
             RRCLoading.hide()
-          }, 5000);
+          }, 2000);
         }}>
           <Text style={styles.welcome}>
-            Show loading >> hide loading after 5s
+            Show loading >> hide loading after 2s
           </Text>
         </TouchableOpacity>
         <TouchableOpacity onPress={() => {
