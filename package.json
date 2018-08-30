@@ -7,15 +7,18 @@
 	},
 	"description": "a react-native plugin for normal alert and loading",
 	"dependencies": {
-		"react": "16.0.0",
-		"react-native": "0.50.4"
 	},
 	"devDependencies": {
+		"react": "^16.0.0",
+		"react-native": "^0.50.4",
 		"babel-jest": "23.4.2",
 		"babel-preset-react-native": "4.0.0",
 		"jest": "23.5.0",
 		"react-test-renderer": "16.0.0"
 	},
+	"files": [
+		"src"
+	],
 	"jest": {
 		"preset": "react-native"
 	},
