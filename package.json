@@ -16,6 +16,9 @@
 		"jest": "23.5.0",
 		"react-test-renderer": "16.0.0"
 	},
+	"files": [
+		"./src/"
+	],
 	"jest": {
 		"preset": "react-native"
 	},
