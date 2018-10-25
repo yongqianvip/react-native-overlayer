@@ -10,6 +10,10 @@ react-native项目中通用的浮层组件
 
 		npm i react-native-overlayer --save
 
+# 效果
+
+	![](./countdown.gif)
+	
 ## RRCAlert
 * 引用
 
