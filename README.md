@@ -12,7 +12,7 @@ react-native项目中通用的浮层组件
 
 # 效果
 
-	![](./countdown.gif)
+![](./countdown.gif)
 	
 ## RRCAlert
 * 引用
