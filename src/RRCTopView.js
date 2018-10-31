@@ -247,7 +247,7 @@ export default class RRCTopView extends Component {
 
 var styles = StyleSheet.create({
     overlayContainer: {
-        backgroundColor: 'rgba(0, 0, 0, 0.5)',
+        backgroundColor: 'rgba(0, 0, 0, 0)',
         position: 'absolute',
         top: 0,
         left: 0,

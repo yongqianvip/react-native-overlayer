@@ -12,14 +12,19 @@ react-native项目中通用的浮层组件
 
 # 效果
 
-![](./countdown.gif)
-	
+![](./assets/overlayer.gif)
+![](./assets/loadingstyle.png)
 ## RRCAlert
 * 引用
 
 		import { RRCAlert } from 'react-native-overlayer';
 		...
+		RRCAlert.setAlertOptions({
+			alertBackgroundColor: 'rgba(0,0,0,0.3)' // alert蒙层的背景色
+		})
 		RRCAlert.alert(title, content, buttons, callback, options);
+	
+	> 注意与RRCLoading的Options的设置方式的区别
 
 * options
 
@@ -48,6 +53,8 @@ react-native项目中通用的浮层组件
 	|:--:|:--:|:--:|
 	| loadingImage |null|图片（gif） |
 	| text |加载中...|loading框中显示的文本 |
+	|loadingBackgroundColor| rgba(0,0,0,0.3) | 蒙层背景色|
+	|loadingViewBackgroundColor | rgba(0,0,0,0) | loading框的颜色|
 
 * 在android中使用gif图需要添加额外配置，在`android/app/build.gradle`中添加如下代码
 

@@ -9,7 +9,6 @@ import {
   StyleSheet,
   Text,
   View,
-  Image,
   TouchableOpacity,
   Dimensions
 } from 'react-native';
@@ -18,13 +17,27 @@ import LoadingImage from './src/img/loading.gif';
 export default class App extends Component {
   constructor(props) {
     super(props);
-    RRCLoading.setLoadingOptions({ loadingImage: LoadingImage, text: 'gogogo' })
+    RRCLoading.setLoadingOptions({
+      loadingImage: LoadingImage,
+      text: 'gogogo',
+      loadingBackgroundColor: 'rgba(0,0,0,0.5)',
+      loadingViewBackgroundColor: 'rgba(0,0,0,0)'
+    })
+    RRCAlert.setAlertOptions({
+      alertBackgroundColor: 'rgba(0,0,0,0.3)'
+    })
   }
   render() {
     return (
       <View style={styles.container}>
         <TouchableOpacity onPress={() => {
-          RRCLoading.show()
+          RRCLoading.show('努力加载中...')
+          RRCLoading.setLoadingOptions({
+            loadingImage: '',
+            text: 'gogogo',
+            loadingBackgroundColor: 'rgba(0,0,0,0)',
+            loadingViewBackgroundColor: 'rgba(0,0,0,0.9)'
+          })
           setTimeout(() => {
             RRCLoading.hide()
           }, 2000);
@@ -45,6 +58,10 @@ export default class App extends Component {
         <TouchableOpacity onPress={() => {
           RRCAlert.alert('loading and alert')
           setTimeout(() => {
+            RRCLoading.setLoadingOptions({
+              text: 'loading',
+              loadingImage: ''
+            })
             RRCLoading.show('Loading...')
           }, 1000);
           setTimeout(() => {
