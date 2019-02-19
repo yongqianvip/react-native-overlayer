@@ -5,10 +5,11 @@ react-native项目中通用的浮层组件
 # 功能
 * **通用RRCAlert组件**
 * **通用RRCLoading组件**
+* **通用RRCToast组件**
 
 # install
 
-		npm i react-native-overlayer --save
+	npm i react-native-overlayer --save
 
 # 效果
 
@@ -20,17 +21,23 @@ react-native项目中通用的浮层组件
 		import { RRCAlert } from 'react-native-overlayer';
 		...
 		RRCAlert.setAlertOptions({
-			alertBackgroundColor: 'rgba(0,0,0,0.3)' // alert蒙层的背景色
+		  alertBackgroundColor: 'rgba(0,0,0,0.3)', // alert蒙层的背景色
+		  titleViewStyle: {},
+		  titleTextStyle: {},
+		  contentTextStyle: {}
 		})
-		RRCAlert.alert(title, content, buttons, callback, options);
-	
-	> 注意与RRCLoading的Options的设置方式的区别
+		...
+		RRCAlert.alert(title, content, buttons, callback);
 
-* options
+* **`setAlertOptions` options**
 
-	|key|default value | desc |
-	|:--:|:--:|:--:|
-	|contentTextStyle|null|弹框content的文本样式 |
+	|key|type|default value | desc |
+	|:--:|:--:|:--:|:--:|
+	|alertBackgroundColor|string|rgba(0,0,0,0.3)|弹框蒙层背景色 |
+	|titleViewStyle|object|-|弹框标题View扩展样式 |
+	|titleTextStyle|object|-|弹框标题文本扩展样式 |
+	|contentTextStyle|object|-|弹框内容文本扩展样式 |
+
 
 * 当 buttons.length > 2 时，弹窗中的按钮按纵向排列
 
@@ -39,22 +46,29 @@ react-native项目中通用的浮层组件
 * 引用
 
 		import { RRCLoading } from 'react-native-overlayer';
-		import LoadingImage from './src/loading.gif';
+		import LoadingImage from './src/img/loading.gif';
 		...
-		const options = { loadingImage: LoadingImage, text: 'gogogo' };
-		RRCLoading.setLoadingOptions(options);
+		RRCLoading.setLoadingOptions({
+			text: 'gogogo',
+			loadingBackgroundColor: 'rgba(0,0,0,0.0)',
+			loadingImage: LoadingImage,
+			loadingViewStyle: {backgroundColor: 'rgba(0,0,0,0.8)'},
+			loadingTextStyle: {}
+		})
 
 		RRCLoading.show();
 
 		RRCLoading.hide();
-* options
-
-	|key|default value | desc |
-	|:--:|:--:|:--:|
-	| loadingImage |null|图片（gif） |
-	| text |加载中...|loading框中显示的文本 |
-	|loadingBackgroundColor| rgba(0,0,0,0.3) | 蒙层背景色|
-	|loadingViewBackgroundColor | rgba(0,0,0,0) | loading框的颜色|
+		
+* **`setLoadingOptions` oprions**
+	
+	|key|type|default value | desc |
+	|:--:|:--:|:--:|:--:|
+	| text |string|加载中...|loading框中显示的文本 |
+	| loadingBackgroundColor |string| rgba(0,0,0,0) | 蒙层背景色|
+	| loadingImage |Image| - |图片（gif） |
+	| loadingViewStyle |object|-| loading框view的扩展样式|
+	| loadingTextStyle |object| - | loading框的文本扩展样式|
 
 * 在android中使用gif图需要添加额外配置，在`android/app/build.gradle`中添加如下代码
 
@@ -62,6 +76,38 @@ react-native项目中通用的浮层组件
 		  // 如果你需要支持GIF动图
 		  compile 'com.facebook.fresco:animated-gif:1.3.0'
 		}
+
+## RRCToast
+* 引用
+
+		import { RRCLoading } from 'react-native-overlayer';
+		import AlertImage from './src/img/alert.png';
+		import SuccessImage from './src/img/success.png';
+		...
+		RRCToast.setToastOptions({
+	      toastIcons: [AlertImage, SuccessImage],
+	      toastBackgroundColor: 'rgba(0,0,0,0)',
+	      toastViewStyle: {},
+	      toastTextStyle: {},
+	      durationTime: 3000
+	    })
+	    ...
+	    RRCToast.show(toastText, iconIndex, duration);
+
+	> iconIndex: toast可以附带一个icon， toastIcons[iconIndex]
+	
+* **`setToastOptions` options**
+
+	|key|type|default value | desc |
+	|:--:|:--:|:--:|:--:|
+	| toastIcons | array |-|toast附带的icon数组 |
+	| toastBackgroundColor | string |rgba(0,0,0,0)|toast蒙层背景色 |
+	| toastViewStyle |object|-|toast扩展样式 |
+	| toastTextStyle | object |-|toast文本扩展样式 |
+	| durationTime |number| 200 |toast展示的时长 |
+
+
+
 
 ## Alert和Loading同时出现
 
@@ -96,3 +142,9 @@ react-native项目中通用的浮层组件
 
 	  return AppRegistry.registerComponentOld(appKey, () => RootElement);
 	}
+	
+# 更新说明
+### 0.1.0
+- 新增`RRCToast`
+- `RRCAlert.alert()`不再接收`options`参数
+- 各个组件统一使用`set***Options`的方式设置属性、样式

@@ -1,3 +1,11 @@
+/*
+ * @Author: yinyongqian
+ * @Description:
+ * @Date: 2018-11-13 14:45:11
+ * @LastEditors: yinyongqian
+ * @LastEditTime: 2019-02-19 10:18:39
+ */
+
 /**
  * Sample React Native App
  * https://github.com/facebook/react-native
@@ -10,33 +18,47 @@ import {
   Text,
   View,
   TouchableOpacity,
-  Dimensions
+  Dimensions,
+  ScrollView
 } from 'react-native';
-import { RRCAlert, RRCLoading } from './src';
-import LoadingImage from './src/img/loading.gif';
+import { RRCAlert, RRCLoading, RRCToast } from './src';
+import LoadingImage from './src/img/car_list_loading.gif';
+import AlertImage from './src/img/alert.png';
+import SuccessImage from './src/img/success.png';
+
 export default class App extends Component {
   constructor(props) {
     super(props);
     RRCLoading.setLoadingOptions({
-      loadingImage: LoadingImage,
       text: 'gogogo',
-      loadingBackgroundColor: 'rgba(0,0,0,0.5)',
-      loadingViewBackgroundColor: 'rgba(0,0,0,0)'
+      loadingBackgroundColor: 'rgba(0,0,0,0.0)',
+      loadingImage: LoadingImage,
+      loadingViewStyle: { backgroundColor: 'rgba(0,0,0,0.8)' },
+      loadingTextStyle: {}
     })
-    RRCAlert.setAlertOptions({
-      alertBackgroundColor: 'rgba(0,0,0,0.3)'
+    // RRCAlert.setAlertOptions({
+    //   alertBackgroundColor: 'rgba(0,0,0,0.3)',
+    //   titleViewStyle: {},
+    //   titleTextStyle: {},
+    //   contentTextStyle: {}
+    // })
+    RRCToast.setToastOptions({
+      toastIcons: [AlertImage, SuccessImage],
+      toastBackgroundColor: 'rgba(0,0,0,0)',
+      toastViewStyle: {},
+      toastTextStyle: {},
+      durationTime: 3000
     })
   }
   render() {
     return (
-      <View style={styles.container}>
+      <ScrollView style={{flex: 1, marginBottom: 44, marginTop: 34}}>
         <TouchableOpacity onPress={() => {
-          RRCLoading.show('努力加载中...')
+          RRCLoading.show('加载中...')
           RRCLoading.setLoadingOptions({
-            loadingImage: '',
             text: 'gogogo',
             loadingBackgroundColor: 'rgba(0,0,0,0)',
-            loadingViewBackgroundColor: 'rgba(0,0,0,0.9)'
+            loadingViewStyle: { backgroundColor: 'rgba(0,0,0,0.9)' }
           })
           setTimeout(() => {
             RRCLoading.hide()
@@ -51,7 +73,7 @@ export default class App extends Component {
         }}>
           <Text style={styles.welcome}>
             Alert normal
-          </Text>
+        </Text>
         </TouchableOpacity>
 
 
@@ -62,7 +84,7 @@ export default class App extends Component {
               text: 'loading',
               loadingImage: ''
             })
-            RRCLoading.show('Loading...')
+            RRCLoading.show('加载中')
           }, 1000);
           setTimeout(() => {
             RRCLoading.hide()
@@ -70,7 +92,7 @@ export default class App extends Component {
         }}>
           <Text style={styles.welcome}>
             Alert normal >> show loading after 1s >> hide loading after 3s
-          </Text>
+        </Text>
         </TouchableOpacity>
 
         <TouchableOpacity onPress={() => {
@@ -81,7 +103,7 @@ export default class App extends Component {
         }}>
           <Text style={styles.welcome}>
             Alert nothing and show loading
-          </Text>
+        </Text>
         </TouchableOpacity>
 
         <TouchableOpacity onPress={() => {
@@ -89,26 +111,30 @@ export default class App extends Component {
         }}>
           <Text style={styles.welcome}>
             Alert title only
-          </Text>
+        </Text>
         </TouchableOpacity>
         <TouchableOpacity onPress={() => {
           RRCAlert.alert('only title && very looooooooooooooooooooooooooooooong')
         }}>
           <Text style={styles.welcome}>
             Alert long title only
-          </Text>
+        </Text>
         </TouchableOpacity>
         <TouchableOpacity onPress={() => {
           RRCAlert.alert(
             null,
-            'content content content content content content content content content content ',
+            '这是Alert的内容，如果内容很多会自动折行，行高20 ',
             [{ text: '确定' }]
           )
+          // 可以中途修改样式
+          // RRCAlert.setAlertOptions({
+          //   contentTextStyle: {backgroundColor: 'red'}
+          // })
 
         }}>
           <Text style={styles.welcome}>
             Alert content only
-          </Text>
+        </Text>
         </TouchableOpacity>
         <TouchableOpacity onPress={() => {
           RRCAlert.alert(
@@ -122,18 +148,12 @@ export default class App extends Component {
             }],
             (index) => {
               console.log(`index = ${index} clicked`);
-            },
-            {
-              contentTextStyle: {
-                fontSize: 14,
-                textAlign: 'left'
-              }
             }
           )
         }}>
           <Text style={styles.welcome}>
             Alert mutltiple lines
-          </Text>
+        </Text>
         </TouchableOpacity>
 
 
@@ -157,10 +177,45 @@ export default class App extends Component {
         }}>
           <Text style={styles.welcome}>
             Alert with three buttons >> Alert normal after 2s
-          </Text>
+        </Text>
+        </TouchableOpacity>
+        <TouchableOpacity onPress={() => {
+          RRCAlert.alert('normal');
+          RRCToast.show('操作成功，可以继续', 1, 1000);
+        }}>
+          <Text style={styles.welcome}>
+            show toast and alert
+        </Text>
         </TouchableOpacity>
 
-      </View>
+        <TouchableOpacity onPress={() => {
+          RRCToast.show('操作成功');
+        }}>
+          <Text style={styles.welcome}>
+            show toast text only (one line)
+        </Text>
+        </TouchableOpacity>
+
+        <TouchableOpacity onPress={() => {
+          RRCToast.show('操作成功，可以继续，操作成功，可以继续，操作成功，可以继续，操作成功，可以继续，5s后消失', null, 5000);
+        }}>
+          <Text style={styles.welcome}>
+            show toast text only (multiple lines)
+        </Text>
+        </TouchableOpacity>
+
+        <TouchableOpacity onPress={() => {
+          RRCLoading.show('正在上传图片...');
+          setTimeout(() => {
+            RRCLoading.hide()
+            RRCToast.show('操作成功', 1);
+          }, 2000);
+        }}>
+          <Text style={styles.welcome}>
+            loading 2s later hide loading and show toast
+        </Text>
+        </TouchableOpacity>
+      </ScrollView>
     );
   }
 }
@@ -170,8 +225,7 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    // backgroundColor: '#fd521d'
-
+    backgroundColor: '#ccc'
   },
   welcome: {
     fontSize: 20,

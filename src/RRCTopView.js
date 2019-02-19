@@ -1,16 +1,25 @@
+/*
+ * @Author: yinyongqian
+ * @Description:
+ * @Date: 2018-11-13 14:45:12
+ * @LastEditors: yinyongqian
+ * @LastEditTime: 2018-11-28 10:13:02
+ */
+
 // RRCTopView.js
 
 'use strict';
 
 import React, { Component } from "react";
-import { StyleSheet, AppRegistry, DeviceEventEmitter, View, Animated } from 'react-native';
+import { StyleSheet, AppRegistry, DeviceEventEmitter, View, Animated, Dimensions } from 'react-native';
+const { width, height } = Dimensions.get('window')
 
 let keyValue = 0;
 const rrcRNLoadingKey = 'rrc-rn-loading-key'
 
 export default class RRCTopView extends Component {
 
-    static add(element) {
+    static addAlert(element) {
         let key = ++keyValue;
         DeviceEventEmitter.emit("addOverlay-Alert", { key, element });
         return key;
@@ -22,12 +31,22 @@ export default class RRCTopView extends Component {
         return key;
     }
 
+    static addToast(element) {
+        let key = ++keyValue;
+        DeviceEventEmitter.emit("addOverlay-Toast", { key, element });
+        return key;
+    }
+
     static removeLoading() {
         DeviceEventEmitter.emit("removeOverlay-Loading");
     }
 
-    static remove(key) {
+    static removeAlert(key) {
         DeviceEventEmitter.emit("removeOverlay-Alert", { key });
+    }
+
+    static removeToast(key) {
+        DeviceEventEmitter.emit("removeOverlay-Toast", { key });
     }
 
     static removeAll() {
@@ -50,18 +69,22 @@ export default class RRCTopView extends Component {
             translateY: new Animated.Value(0),
             scaleX: new Animated.Value(1),
             scaleY: new Animated.Value(1),
+            toastElements: [],
         };
     }
 
     componentWillMount() {
-        DeviceEventEmitter.addListener("addOverlay-Alert", e => this.add(e));
-        DeviceEventEmitter.addListener("removeOverlay-Alert", e => this.remove(e));
+        DeviceEventEmitter.addListener("addOverlay-Alert", e => this.addAlertToTopView(e));
+        DeviceEventEmitter.addListener("removeOverlay-Alert", e => this.removeAlertFromTopView(e));
         DeviceEventEmitter.addListener("removeAllOverlay-Alert", e => this.removeAll(e));
         DeviceEventEmitter.addListener("transformRoot-Alert", e => this.transform(e));
         DeviceEventEmitter.addListener("restoreRoot-Alert", e => this.restore(e));
 
-        DeviceEventEmitter.addListener("addOverlay-Loading", e => this.addLoading(e));
-        DeviceEventEmitter.addListener("removeOverlay-Loading", () => this.removeLoading());
+        DeviceEventEmitter.addListener("addOverlay-Loading", e => this.addLoadingToTopView(e));
+        DeviceEventEmitter.addListener("removeOverlay-Loading", () => this.removeLoadingFromTopView());
+
+        DeviceEventEmitter.addListener("addOverlay-Toast", e => this.addToastToTopView(e));
+        DeviceEventEmitter.addListener("removeOverlay-Toast", (e) => this.removeLToastFromTopView(e));
     }
 
     componentWillUnmount() {
@@ -73,15 +96,18 @@ export default class RRCTopView extends Component {
 
         DeviceEventEmitter.removeAllListeners("addOverlay-Loading");
         DeviceEventEmitter.removeAllListeners("removeOverlay-Loading");
+
+        DeviceEventEmitter.removeAllListeners("addOverlay-Toast");
+        DeviceEventEmitter.removeAllListeners("removeOverlay-Toast");
     }
 
-    add(e) {
+    addAlertToTopView(e) {
         let { elements } = this.state;
         elements.push(e);
         this.setState({ elements });
     }
 
-    remove(e) {
+    removeAlertFromTopView(e) {
         let { elements } = this.state;
         for (let i = elements.length - 1; i >= 0; --i) {
             if (elements[i].key === e.key) {
@@ -92,7 +118,18 @@ export default class RRCTopView extends Component {
         this.setState({ elements });
     }
 
-    addLoading(e) {
+    removeLToastFromTopView(e) {
+        let { toastElements } = this.state;
+        for (let i = toastElements.length - 1; i >= 0; --i) {
+            if (toastElements[i].key === e.key) {
+                toastElements.splice(i, 1);
+                break;
+            }
+        }
+        this.setState({ toastElements });
+    }
+
+    addLoadingToTopView(e) {
         let { elements } = this.state;
         for (let i = elements.length - 1; i >= 0; --i) {
             if (elements[i].key === rrcRNLoadingKey) {
@@ -103,7 +140,7 @@ export default class RRCTopView extends Component {
         this.setState({ elements });
     }
 
-    removeLoading() {
+    removeLoadingFromTopView() {
         let { elements } = this.state;
         for (let i = elements.length - 1; i >= 0; --i) {
             if (elements[i].key === rrcRNLoadingKey) {
@@ -112,6 +149,14 @@ export default class RRCTopView extends Component {
             }
         }
         this.setState({ elements });
+    }
+
+
+
+    addToastToTopView(e) {
+        let { toastElements } = this.state;
+        toastElements.push(e);
+        this.setState({ toastElements });
     }
 
     removeAll(e) {
@@ -193,7 +238,7 @@ export default class RRCTopView extends Component {
     }
 
     render() {
-        let { elements, translateX, translateY, scaleX, scaleY } = this.state;
+        let { elements, toastElements, translateX, translateY, scaleX, scaleY } = this.state;
         let transform = [{ translateX }, { translateY }, { scaleX }, { scaleY }];
         // 如果存在loading  只加载loading，loading结束后加载其他element
         let laodingItem = null;
@@ -221,7 +266,7 @@ export default class RRCTopView extends Component {
                     {this.props.children}
                 </Animated.View>
                 {
-                    elements.length > 0 ?
+                    elements.length > 0 || toastElements.length > 0 ?
                         <View style={styles.overlayContainer}>
                             {
                                 elements.map((item, index) => {
@@ -229,6 +274,20 @@ export default class RRCTopView extends Component {
                                     if (index == elements.length - 1) {
                                         return (
                                             <View key={'RRCTopView' + item.key} style={styles.overlay} >
+                                                {item.element}
+                                            </View>
+                                        );
+                                    } else {
+                                        return null;
+                                    }
+                                })
+                            }
+                            {
+                                toastElements.map((item, index) => {
+                                    // 同一时刻只加载elements中最后一个element
+                                    if (index == toastElements.length - 1) {
+                                        return (
+                                            <View key={'RRCTopView_Toast' + item.key} style={styles.overlay} >
                                                 {item.element}
                                             </View>
                                         );
@@ -258,11 +317,11 @@ var styles = StyleSheet.create({
     },
     overlay: {
         position: 'absolute',
-    },
+    }
 });
 
-if (!AppRegistry.registerComponentForAlert) {
-    AppRegistry.registerComponentForAlert = AppRegistry.registerComponent;
+if (!AppRegistry.registerComponentOld) {
+    AppRegistry.registerComponentOld = AppRegistry.registerComponent;
 }
 
 AppRegistry.registerComponent = function (appKey, componentProvider) {
@@ -278,5 +337,5 @@ AppRegistry.registerComponent = function (appKey, componentProvider) {
         }
     }
 
-    return AppRegistry.registerComponentForAlert(appKey, () => RootElement);
+    return AppRegistry.registerComponentOld(appKey, () => RootElement);
 }
