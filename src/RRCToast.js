@@ -43,7 +43,7 @@ export default class OverlayToast {
         const toastViewBackgroundColor =  ToastOptions.toastViewStyle && ToastOptions.toastViewStyle.backgroundColor ? ToastOptions.toastViewStyle.backgroundColor : 'rgba(0,0,0,0.8)';
         const withIcon = ToastOptions.toastIcons && ToastOptions.toastIcons.length > 0 && type != null && type >= 0 && type < ToastOptions.toastIcons.length;
         const toastView = (
-            <View style={{ width, height, left: 0, right: 0, top: 0, bottom: 0, backgroundColor: toastBackgroundColor, justifyContent: 'center', alignItems: 'center' }}>
+            <View pointerEvents={'box-none'} style={{ width, height, left: 0, right: 0, top: 0, bottom: 0, backgroundColor: toastBackgroundColor, justifyContent: 'center', alignItems: 'center' }}>
                 <View style={[{
                         justifyContent: 'center',
                         alignItems: 'center',

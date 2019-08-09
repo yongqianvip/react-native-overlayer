@@ -267,7 +267,7 @@ export default class RRCTopView extends Component {
                 </Animated.View>
                 {
                     elements.length > 0 || toastElements.length > 0 ?
-                        <View style={styles.overlayContainer}>
+                        <View style={styles.overlayContainer} pointerEvents={'box-none'} >
                             {
                                 elements.map((item, index) => {
                                     // 同一时刻只加载elements中最后一个element
@@ -287,7 +287,7 @@ export default class RRCTopView extends Component {
                                     // 同一时刻只加载elements中最后一个element
                                     if (index == toastElements.length - 1) {
                                         return (
-                                            <View key={'RRCTopView_Toast' + item.key} style={styles.overlay} >
+                                            <View key={'RRCTopView_Toast' + item.key} style={styles.overlay} pointerEvents={'box-none'} >
                                                 {item.element}
                                             </View>
                                         );
@@ -297,7 +297,7 @@ export default class RRCTopView extends Component {
                                 })
                             }
                         </View>
-                        : null
+                    : null
                 }
             </View>
         );

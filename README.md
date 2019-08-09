@@ -27,7 +27,14 @@ react-native项目中通用的浮层组件
 		  contentTextStyle: {}
 		})
 		...
-		RRCAlert.alert(title, content, buttons, callback);
+		
+		cosnt buttons = [
+			{ text: 'ok', style: { color: '#fd521d', fontWeight: 'bold' } }
+		]
+		const callback = (index)=>{
+			console.log(`you click button with index ${index}`);
+		}
+		RRCAlert.alert('title', 'content', buttons, callback);
 
 * **`setAlertOptions` options**
 
