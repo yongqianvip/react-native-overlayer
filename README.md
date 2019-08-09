@@ -155,3 +155,6 @@ react-native项目中通用的浮层组件
 - 新增`RRCToast`
 - `RRCAlert.alert()`不再接收`options`参数
 - 各个组件统一使用`set***Options`的方式设置属性、样式
+
+### 0.1.1
+- `RRCToast`出现时可以进行toast之外的交互，如点击事件、侧滑返回等
