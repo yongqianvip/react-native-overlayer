@@ -60,7 +60,7 @@ export default class OverlayActionSheet {
     let key;
     const backgroundColor = ActionSheetOptions.backgroundColor && typeof ActionSheetOptions.backgroundColor == 'string' ? ActionSheetOptions.backgroundColor : defaultBackgroundColor
     const overlayView = (
-      <TouchableOpacity activeOpacity={1} type={'actionSheet'} style={{ width, height, backgroundColor: backgroundColor, alignItems: 'center', justifyContent: 'flex-end',}} onPress={()=>{
+      <TouchableOpacity activeOpacity={1} type={'actionSheet'} style={{ width, height, backgroundColor: backgroundColor, alignItems: 'center'}} onPress={()=>{
         DeviceEventEmitter.emit("hide-actionSheet", ()=>{
           RRCTopView.removeAlert(key);
         });
