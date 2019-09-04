@@ -9,9 +9,11 @@
 import RRCAlert from './RRCAlert';
 import RRCLoading from './RRCLoading';
 import RRCToast from './RRCToast';
+import RRCActionSheet from './RRCActionSheet';
 
 export {
     RRCAlert,
     RRCLoading,
-    RRCToast
+    RRCToast,
+    RRCActionSheet
 }

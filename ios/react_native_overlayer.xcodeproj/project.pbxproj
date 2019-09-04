@@ -474,6 +474,13 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
+		53A3D397231D0E35004EF6D3 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 		5E91572E1DD0AC6500FF2AA8 /* Products */ = {
 			isa = PBXGroup;
 			children = (
@@ -526,6 +533,7 @@
 				13B07FAE1A68108700A75B9A /* react_native_overlayer */,
 				832341AE1AAA6A7D00B99B32 /* Libraries */,
 				83CBBA001A601CBA00E9B192 /* Products */,
+				53A3D397231D0E35004EF6D3 /* Frameworks */,
 			);
 			indentWidth = 2;
 			sourceTree = "<group>";

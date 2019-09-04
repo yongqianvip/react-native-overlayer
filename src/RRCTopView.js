@@ -269,6 +269,8 @@ export default class RRCTopView extends Component {
                     elements.length > 0 || toastElements.length > 0 ?
                         <View style={styles.overlayContainer} pointerEvents={'box-none'} >
                             {
+                                // 如果最后一项是alert，应该查找并清除前几项中的actionSheet（如果有的话）
+                                // 目前alert和actionSheet是相容的，应该改为互斥的，即最后出现的可以打断之前出现的
                                 elements.map((item, index) => {
                                     // 同一时刻只加载elements中最后一个element
                                     if (index == elements.length - 1) {

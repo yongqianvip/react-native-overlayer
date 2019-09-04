@@ -21,7 +21,7 @@ import {
   Dimensions,
   ScrollView
 } from 'react-native';
-import { RRCAlert, RRCLoading, RRCToast } from './src';
+import { RRCAlert, RRCLoading, RRCToast, RRCActionSheet } from './src';
 import LoadingImage from './src/img/car_list_loading.gif';
 import AlertImage from './src/img/alert.png';
 import SuccessImage from './src/img/success.png';
@@ -70,10 +70,40 @@ export default class App extends Component {
         </TouchableOpacity>
         <TouchableOpacity onPress={() => {
           RRCAlert.alert('normal');
+          setTimeout(() => {
+            RRCActionSheet.action([1,2,3], (index)=>{
+              RRCToast.show(index)
+            })
+          }, 1000);
         }}>
           <Text style={styles.welcome}>
             Alert normal
         </Text>
+        </TouchableOpacity>
+
+        <TouchableOpacity onPress={() => {
+          RRCActionSheet.action( [1,{text: 2, style:{color: 'red'}},3,4,5,6], (index)=>{
+            RRCToast.show('selected index ' + index)
+          }, {text: 'ok', style:{color: 'red'}});
+
+        }}>
+          <Text style={styles.welcome}>
+            action sheet normal
+        </Text>
+        </TouchableOpacity>
+
+        <TouchableOpacity onPress={() => {
+          RRCActionSheet.action( [1,2,3,4,5,6], (index)=>{
+            RRCToast.show('selected index ' + index)
+          });
+          RRCToast.show('toast 与 ActionSheet、Alert不冲突')
+          setTimeout(()=>{
+            RRCAlert.alert('ActionSheet、Alert先入栈的最后展示')
+          }, 2000)
+        }}>
+          <Text style={styles.welcome}>
+            action sheet normal default
+          </Text>
         </TouchableOpacity>
 
 

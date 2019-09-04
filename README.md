@@ -6,6 +6,7 @@ react-native项目中通用的浮层组件
 * **通用RRCAlert组件**
 * **通用RRCLoading组件**
 * **通用RRCToast组件**
+* **通用RRCActionSheet组件**
 
 # install
 
@@ -48,6 +49,58 @@ react-native项目中通用的浮层组件
 
 * 当 buttons.length > 2 时，弹窗中的按钮按纵向排列
 
+## RRCActionSheet
+* 引用
+
+		import { RRCActionSheet } from 'react-native-overlayer';
+		...
+		RRCActionSheet.setActionSheetOptions({
+		  backgroundColor: defaultBackgroundColor, // 遮罩颜色
+		  fontSize: 19, // 文字字号
+		  itemHeight: 57, // 单个item的高度
+		  buttonTitleColor: 'rgba(0, 0, 14, 0.8)', // 备选按钮字体颜色
+		  cancelButtonTitleColor: 'rgba(0, 0, 14, 0.8)', // 取消按钮字体颜色
+		  buttonItemBackgroundColor: '#eee', // 备选按钮背景颜色
+		  cancelButtonBackgroundColor: '#feffff', // 取消按钮背景颜色
+		})
+		...
+		
+		const buttons = [1,'2','3',4,5,6]; // 字符串或数字型数组
+		const buttons_2 = [ // 对象型数组  key 为 text和style
+			{text: 1, style:{color: 'red', fontSize: 16}},
+			{text: 2, style:{color: 'red'}},
+			{text: 2, style:{color: 'red'}},
+			{text: 3, style:{color: 'red'}}
+		]
+		const buttons_3 = [ // 数字、字符串、对象 组合型数组
+			{text: 1, style:{color: 'red'}},
+			2,
+			{text: 3, style:{color: 'red'}},
+			{text: 4, style:{color: 'red'}},
+			'5'
+		]
+		
+		const callback = (index)=>{
+			console.log(`you click button with index ${index}`);
+		}
+		const cancelButton = {text: '确定', style:{color: 'red'}} // 默认【取消】 样式可以通过option统一设置
+		
+		RRCActionSheet.action(buttons, callback, cancelButton);
+		
+
+* **`setAlertOptions` options**
+
+	|key|type|default value | desc |
+	|:--:|:--:|:--:|:--:|
+	| backgroundColor |string|rgba(0,0,0,0.3)|弹框蒙层背景色 |
+	| fontSize | number| 19 | 文字字号
+	| itemHeight | number| 57 | 单个item的高度
+	| buttonTitleColor | string | rgba(0, 0, 14, 0.8) | 备选按钮字体颜色
+	| cancelButtonTitleColor |  string| #eee | 备选按钮背景颜色
+	| buttonItemBackgroundColor | string| 19 | 文字字号
+	| cancelButtonBackgroundColor | string | #feffff | 取消按钮背景颜色
+
+
 
 ## RRCLoading
 * 引用
@@ -83,7 +136,7 @@ react-native项目中通用的浮层组件
 		  // 如果你需要支持GIF动图
 		  compile 'com.facebook.fresco:animated-gif:1.3.0'
 		}
-
+		
 ## RRCToast
 * 引用
 
@@ -158,3 +211,14 @@ react-native项目中通用的浮层组件
 
 ### 0.1.1
 - `RRCToast`出现时可以进行toast之外的交互，如点击事件、侧滑返回等
+
+### 0.2.0
+- 新增`RRCActionSheet`，用法与RRCAlert类似
+
+# 效果图
+![alert](./assets/alertnormal.png)
+![alert](./assets/alert3.png)
+![loading](./assets/loading.png)
+![actionsheet](./assets/actionsheet2.png)
+![toast](./assets/toast.png)
+![toast](./assets/toast2.png)
