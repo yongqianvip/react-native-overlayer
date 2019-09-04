@@ -14,17 +14,17 @@ const borderRadius = 12;
 class ActionSheet extends React.Component {
   constructor(props){
     super(props);
-    const {options, buttons} = props
     this.state = {
-      actionSheetTop: new Animated.Value(options.itemHeight * buttons.length + 8 + options.itemHeight)
+      actionSheetTop: new Animated.Value(DeviceConst.height) // 默认组件在屏幕（底部）外
     }
     this.renderButtonItem = this.renderButtonItem.bind(this);
     this.hideActionSheet = this.hideActionSheet.bind(this);
     DeviceEventEmitter.addListener("hide-actionSheet", this.hideActionSheet);
   }
   componentDidMount(){
-    Animated.timing(this.state.actionSheetTop, {
-			toValue: -(DeviceConst.dangerBottomHeight + 10),
+    const {options, buttons} = this.props
+    Animated.timing(this.state.actionSheetTop, { // 以动画的形式从下往上弹出actionSheet
+			toValue: DeviceConst.height - DeviceConst.dangerBottomHeight - (buttons.length + 1) * options.itemHeight - 8 - (DeviceConst.isAndroid ? 20 : 10) ,
 			duration: 300,
 		}).start();
   }
@@ -32,9 +32,8 @@ class ActionSheet extends React.Component {
     DeviceEventEmitter.removeAllListeners("hide-actionSheet");
   }
   hideActionSheet(callback){
-    const {options, buttons} = this.props
     Animated.timing(this.state.actionSheetTop, {
-			toValue: options.itemHeight * buttons.length + 8 + options.itemHeight,
+			toValue: DeviceConst.height,
 			duration: 300,
 		}).start(callback ? callback : null);
   }
