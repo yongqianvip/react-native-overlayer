@@ -9,7 +9,7 @@
 	"dependencies": {},
 	"devDependencies": {
 		"react": "^16.0.0",
-		"react-native": "^0.50.4",
+		"react-native": "^0.70.2",
 		"babel-jest": "23.4.2",
 		"babel-preset-react-native": "4.0.0",
 		"jest": "23.5.0",
